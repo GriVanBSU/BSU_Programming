@@ -1,48 +1,38 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.*;
+import java.util.Stack;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class Main {
     public static void main(String[] args) {
 
-        input();
-        output();
-    }
+        File inputFile = new File("input.txt");
+        File outputFile = new File("output.txt");
+        String zipFilePath = "info.rar";
+        String destDirPath = ".";
 
-    public static void input(){
         try{
-            File file = new File("input.txt");
-            if(!file.exists()){
-                file.createNewFile();
-            }
+            UnzipFile.unzip(zipFilePath, destDirPath);
 
-            PrintWriter pw = new PrintWriter(file);
-            pw.println("5 + 3 - 7");
-            pw.close();
+            File unzippedFile = new File(destDirPath + "/input.txt");
+            Scanner inputScanner = new Scanner(unzippedFile);
+            String expression = inputScanner.nextLine();
+            inputScanner.close();
+
+            ArithmeticSolver solver = new ArithmeticSolver();
+            double result = solver.solve(expression);
+
+            FileWriter outputWriter = new FileWriter(outputFile);
+            outputWriter.write(Double.toString(result));
+            outputWriter.close();
 
         }catch(IOException e){
-            System.out.println("Error : " + e);
-        }
-    }
-
-    public static void output(){
-        try{
-            BufferedReader br = null;
-            br = new BufferedReader(new FileReader("input.txt"));
-            String line;
-
-            while((line = br.readLine()) != null){
-                System.out.println(line);
-            }
-
-            br.close();
-        }
-        catch(IOException exe) {
-            System.out.println("Error : " + exe);
+            System.out.println("Error with files : " + e.getMessage());
         }
     }
 }
