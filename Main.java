@@ -11,7 +11,7 @@ import java.util.zip.ZipInputStream;
 public class Main {
     public static void main(String[] args) {
 
-        File inputFile = new File("input.txt");
+        File inputFile = new File("D:\\JavaLab\\input.txt");
         File outputFile = new File("output.txt");
         String zipFilePath = "info.rar";
         String destDirPath = ".";
@@ -19,7 +19,7 @@ public class Main {
         try{
             UnzipFile.unzip(zipFilePath, destDirPath);
 
-            File unzippedFile = new File(destDirPath + "/input.txt");
+            File unzippedFile = new File(inputFile.toURI());
             Scanner inputScanner = new Scanner(unzippedFile);
             String expression = inputScanner.nextLine();
             inputScanner.close();
